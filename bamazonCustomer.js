@@ -1,5 +1,9 @@
 var mysql = require("mysql");
 var inquirer = require("inquirer");
+var cart_item_arr=[''];
+var cart_itemID_arr=[''];
+var cart_itemPrice_arr=0;
+
 
 
 var connection = mysql.createConnection({
@@ -22,7 +26,7 @@ connection.connect(function(err) {
   });
 
   function display_sales() {
-    connection.query("SELECT item_id,product_name,price FROM products", function(err, res) {
+    connection.query("SELECT item_id,product_name,department_name ,price FROM products", function(err, res) {
       if (err) throw err;
       console.log("items for sale\n");
       console.log("*********************************");
@@ -87,14 +91,22 @@ else{
       name:'confirm',
       type:'list',
       choices:['yes','No'],
-      message:"Do you want to  continue?"
+      message:"DO YOU WANT TO ADD ITEM TO CART?"
     }
   ).then (function(res)
   {
     
  if(res.confirm=='yes')
 {
-  update_stock(db_stock);
+  cart(product_id,db_stock);
+  //update_stock(db_stock);
+}
+else if(res.confirm=='No')
+{
+  console.log("=============================");
+  console.log("checkout todays hot deals!");
+  console.log("=============================");
+  display_sales();
 }
 
   }
@@ -105,12 +117,123 @@ else{
 );
 }
 
+function cart(id,stock)
+{
+  
+  console.log("\n Successfully added to cart!\n");
+  
+  //creating a local variable product_id and receiving parameter value 
+  var product_id=id;
+  var db_stock=stock;
+  connection.query("select * from products where item_id=?",product_id,
+  function(err,res)
+  {
+    if(err)
+    {
+      throw err;
+    }
+    var cart_data=JSON.parse(JSON.stringify(res));
+    var cart_item_id=cart_data[0].item_id;
+    var cart_item_name=cart_data[0].product_name;
+    var cart_item_price=cart_data[0].price;
+    cart_item_arr.push(cart_item_name);
+    cart_itemID_arr.push(cart_item_id);
+    var cart_total=0;
+    cart_total+=cart_item_price;
+
+   
+    
+    console.log("Shopping Cart");
+    //console.log("arr"+cart_item_arr+"id:"+cart_itemID_arr+"price:"+cart_itemPrice_arr);
+    //console.log("-------------------------------");
+    //console.log("product_name:"+cart_item_name+"\n"+
+    //"Price:"+cart_item_price+"\n");
+    shopping_decision( cart_total,db_stock);
+
+  }
+  
+  );
+}
+function shopping_decision(p,qnty){
+var total_price=p;
+var db_stock=qnty;
+
+ //console.log(total_price);
+ //console.log(typeof(total_price))
+
+ cart_item_arr.forEach(function(entry) {
+  console.log("item:"+entry);
+  console.log("price:");
+});
+ 
+ console.log("Cart Total:"+total_price);
+ //console.log("here:"+ cart_item_arr);
+  console.log("\n-------------------------------");
+  inquirer.prompt(
+    {
+      name:"confirm",
+      type:"list",
+      choices:['Yes','No'],
+      message:"Do you want to continue shopping?"
+      
+
+    }
+  ).then(function(res)
+  {
+     if(res.confirm=='No')
+     {
+       console.log("\n-----------------------------");
+       inquirer.prompt({
+        name:"confirms",
+        type:"list",
+        choices:['Yes','No'],
+        message:"Do you want to place order?"
+        
+       }).then(function(res1)
+       {
+      
+         if(res1.confirms=='Yes')
+         {
+
+         
+          console.log("Successfully placed order!!!\n"+"Order Total:"+total_price);
+          update_stock(db_stock);
+         } 
+         else if(res1.confirms=='No')
+         {
+           console.log("noo");
+         }
+       });
+     }
+     else if(res.confirm=='Yes')
+     {
+       display_sales();
+     }
+    
+
+
+
+
+
+
+  });
+
+}
+
+
+
+
+
+
+
+
+
 function update_stock(q){
 
 var quantity=q;
-console.log("inside"+quantity);
+//console.log("inside"+quantity);
 quantity=quantity-item_quantity;
-console.log("now"+quantity);
+//console.log("now"+quantity);
 connection.query("update products set stock_quantity=? where item_id=?",[quantity,product_id],
 function(err,res)
 {
@@ -118,6 +241,7 @@ function(err,res)
   {
     throw err;
 }
+console.log("===========================");
 console.log("stock updated successfully");
 }
 );

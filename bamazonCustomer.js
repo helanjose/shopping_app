@@ -1,5 +1,6 @@
 var mysql = require("mysql");
 var inquirer = require("inquirer");
+
 var cart_item_arr=[''];
 var cart_itemID_arr=[''];
 var cart_itemPrice_arr=[''];
@@ -218,15 +219,18 @@ for(i=0,j=0;i<cart_itemPrice_arr.length,j<cart_item_quantity_arr.length;i++,j++)
        {
       
          if(res1.confirms=='Yes')
-         {
+         {1
+
 
          
-          console.log("Successfully placed order!!!\n"+"Order Total:"+total_price);
+          console.log("Successfully placed order!!!\n"+"Order Total:"+sum);
           update_stock(db_stock);
          } 
          else if(res1.confirms=='No')
          {
            console.log("Thanks for visiting !!");
+           connection.end();
+          
          }
        });
      }
@@ -268,6 +272,7 @@ function(err,res)
 }
 console.log("===========================");
 console.log("stock updated successfully");
+connection.end();
 }
 );
 }

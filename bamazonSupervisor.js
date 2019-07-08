@@ -31,7 +31,7 @@ inquirer.prompt({
 }).then(function(res){
     if(res.menu=='View Product Sales by Department')
     {
-        console.log('hhhhh');
+       // console.log('hhhhh');
        View_Product_Sales();
     }
    else if(res.menu=='Create New Department')

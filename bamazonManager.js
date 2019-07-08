@@ -58,7 +58,7 @@ inquirer.prompt({
 menu();
 
 function products_for_sale(){
-    connection.query("select * from products",function(err,data)
+    connection.query("select item_id,product_name,department_name,price,stock_quantity from products",function(err,data)
     
     {
         if(err)
@@ -79,7 +79,7 @@ function products_for_sale(){
     //connection.end();
 }
 function  low_inventory(){
-    connection.query("select * from products where stock_quantity < 5",function(err,data)
+    connection.query("select  item_id,product_name,department_name,price,stock_quantity from products where stock_quantity < 5",function(err,data)
     {
         if(err)
         {
@@ -123,6 +123,7 @@ function add_product()
            var dpt=res.department;
            var amount=res.price;
            var qty=res.quantity;
+           var sales=0;
        
       
 
@@ -131,7 +132,8 @@ function add_product()
         product_name:new_poduct,
         department_name:dpt,
         price:amount,
-        stock_quantity:qty
+        stock_quantity:qty,
+        product_sales:sales
        },
        function(err,data)
        {

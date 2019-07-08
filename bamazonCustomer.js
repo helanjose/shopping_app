@@ -1,5 +1,6 @@
 var mysql = require("mysql");
 var inquirer = require("inquirer");
+const {printTable} = require('console-table-printer');
 
 var cart_item_arr=[''];
 var cart_itemID_arr=[''];
@@ -33,7 +34,7 @@ connection.connect(function(err) {
       if (err) throw err;
       console.log("items for sale\n");
       console.log("*********************************");
-      console.table(res);
+      printTable(res);
       participate_sale();
     });
   }
@@ -59,7 +60,7 @@ connection.connect(function(err) {
 
           product_id=answer.ID;
           item_quantity=answer.quantity;
-          console.log("id&q"+product_id+"\n"+item_quantity);
+          //console.log("id&q"+product_id+"\n"+item_quantity);
          //checking item quantity in db
           stockcheck();
     
@@ -79,7 +80,7 @@ function(err,res)
  var stock_data=JSON.parse(JSON.stringify(res));
  //console.log(stock_data[0].stock_quantity);
   var db_stock=stock_data[0].stock_quantity;
- console.log(db_stock);
+  //printTable(db_stock);
 
 
  if(item_quantity > db_stock)
@@ -164,6 +165,7 @@ function shopping_decision(p,qnty){
 var total_price=p;
 var db_stock=qnty;
 var sum=0;
+sales_product=0;
 
  //console.log(total_price);
  //console.log(typeof(total_price))
@@ -187,7 +189,7 @@ for(i=0,j=0;i<cart_itemPrice_arr.length,j<cart_item_quantity_arr.length;i++,j++)
   if((cart_itemPrice_arr[i]!=='')&&(cart_item_quantity_arr!==''))
   {
  sum+=parseInt(cart_itemPrice_arr[i]*cart_item_quantity_arr[j]);
- 
+ //sales_product+=sum;
   }
  
 }
@@ -219,11 +221,22 @@ for(i=0,j=0;i<cart_itemPrice_arr.length,j<cart_item_quantity_arr.length;i++,j++)
        {
       
          if(res1.confirms=='Yes')
-         {1
-
-
+         {
+          connection.query("update products t inner join products s on s.item_id=t.item_id set  t.product_sales= s.product_sales+ ? where s.item_id=?;",[sum,product_id],
+          function(err,res)
+          {
+            if(err)
+            {
+              throw err;
+          }
+          //console.log("\n-----------------------------");
+        }
+          );
          
           console.log("Successfully placed order!!!\n"+"Order Total:"+sum);
+          console.log("\n-----------------------------");
+
+          
           update_stock(db_stock);
          } 
          else if(res1.confirms=='No')

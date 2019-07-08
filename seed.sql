@@ -24,3 +24,9 @@ INSERT INTO products(product_name,department_name,price,stock_quantity)VALUES('s
 
 
 SELECT * FROM products;
+
+
+
+DEPARTMENT TABLE
+INSERT INTO departments(department_id,department_name,over_head_costs )VALUES(100,'Beauty&health',10000);
+INSERT INTO departments(department_id,department_name,over_head_costs )VALUES(101,'Electronics',10000);

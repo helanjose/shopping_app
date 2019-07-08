@@ -15,68 +15,31 @@ To run the customer interface please follow the steps below:
 	npm install
 	node bamazonCustomer.js
 
-    items for sale
-    
-*********************************
-┌─────────┬───────────────────────┬─────────────────┬───────┐
-│ item_id │          product_name │ department_name │ price │
-├─────────┼───────────────────────┼─────────────────┼───────┤
-│       1 │    Himalaya face wash │   Beauty&health │    10 │
-│       2 │      Aveeno face wash │   Beauty&health │    20 │
-│       3 │        Olay face wash │   Beauty&health │    16 │
-│       4 │              iphone6s │     Electronics │   599 │
-│       5 │               iphone7 │     Electronics │   799 │
-│       6 │               iphone8 │     Electronics │   999 │
-│       7 │     samsung galaxy s7 │     Electronics │   600 │
-│       8 │        Mac Foundation │   Beauty&health │    30 │
-│       9 │      Lakme Foundation │   Beauty&health │    13 │
-│      10 │             maybeline │   Beauty&health │     9 │
-│      11 │ Mac Ruby woo lipstick │   Beauty&health │    18 │
-│      12 │ mac powder foundation │   Beauty&Health │    35 │
-│      13 │ mac powder foundation │   Beauty&Health │    35 │
-│      14 │ mac powder foundation │   Beauty&Health │    35 │
-│      15 │             lenovo pc │     Electronics │  1020 │
-│      16 │             HP laptop │     Electronics │   899 │
-│      17 │           Photo Frame │      Home Decor │    34 │
-│      18 │               Dell PC │     Electronics │  1345 │
-│      19 │    EXO washing Liquid │       Household │    23 │
-│      20 │             Air Fryer │         kitchen │   100 │
-└─────────┴───────────────────────┴─────────────────┴───────┘
+ ### Manager Interace
 
-? Enter ID of the product you would like to buy. 1
-? Enter Quantity 3
-item available!total stock7
-? DO YOU WANT TO ADD ITEM TO CART? yes
+The manager interface presents a list of four options, as below. 
 
- Successfully added to cart!
+	? Menu: (Use arrow keys)
+	❯ View Products for Sale 
+	  View Low Inventory 
+	  Add to Inventory 
+	  Add New Product
+	  
+The **View Products for Sale** option allows the user to view the current inventory of store items: item IDs, Item name, department in which the item is located, price, and the quantity available in stock. 
 
-Shopping Cart
-[*]      item:Himalaya face wash
-[*]      price:10
-[*]      Quantity:3
+The **View Low Inventory** option shows the user the items which currently have fewer than 5 units available.
 
-Cart Total:30
+The **Add to Inventory** option allows the user to select a given item ID and add additional inventory to the target item.which will sum old stock and new stock.
 
--------------------------------
-? Do you want to continue shopping? (Use arrow keys)
-> Yes
-No
+The **Add New Product** option allows the user to enter details about a new product which will be entered into the database upon completion of the form.
 
-yes->[will show the products for sale and customer can add as                 many items to cart]
+### Supervisor
+ Running this application will list a set of menu options:
 
-No->
+* * View Product Sales by Department
+* * Create New Department
 
- Do you want to continue shopping? No
 
------------------------------
-? Do you want to place order? Yes
-Successfully placed order!!!
-Order Total:30
 
------------------------------
-stock updated successfully
- [do you want place order if  customer choose yes then order fulfilled]
+When a supervisor selects View Product Sales by Department, the app  display a summarized table which include department_id,department_name,over_head_costs,product_sales,total_profit.Total profit will not appear in any table in the store database.
 
------------------------------
-? Do you want to place order? No
-Thanks for visiting !!

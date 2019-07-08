@@ -42,11 +42,12 @@ The **Add New Product** option allows the user to enter details about a new prod
 
 
 When a supervisor selects View Product Sales by Department, the app  display a summarized table which include department_id,department_name,over_head_costs,product_sales,total_profit.Total profit will not appear in any table in the store database.
-#demo
-https://vimeo.com/346804375
-https://vimeo.com/346804751
-https://vimeo.com/346804960
-https://vimeo.com/346805547
+
+# demo
+* https://vimeo.com/346804375
+* https://vimeo.com/346804751
+* https://vimeo.com/346804960
+* https://vimeo.com/346805547
 
 
 
